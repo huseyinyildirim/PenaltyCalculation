@@ -1,0 +1,54 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="card">
+    <div class="card-header">
+        Kitap Teslimat
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Index", "Home"))
+        {
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label for="country">Ülke</label>
+                    @Html.DropDownListFor(model => model.CountryId, Model.CountrySelectList, new { Id = "country", @class = "form-control" })
+                    <span class="text-danger" asp-validation-for="CountryId"></span>
+                </div>
+                <div class="form-group col-4">
+                    <label for="purchaseDate">Alış Tarihi</label>
+                    @Html.TextBoxFor(model => model.PurchaseDate, new { @class = "form-control", type = "date" })
+                    <span class="text-danger" asp-validation-for="PurchaseDate"></span>
+                </div>
+                <div class="form-group col-4">
+                    <label for="deliveryDate">Teslim Tarihi</label>
+                    @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "form-control", type = "date" })
+                    <span class="text-danger" asp-validation-for="DeliveryDate"></span>
+                </div>
+            </div>
+
+            <input id="save" type="submit" class="btn btn-primary" value="Hesapla" />
+        }
+    </div>
+</div>
+
+<hr />
+
+@if (Model.PenaltyCalculate != null)
+{
+    <div class="card">
+        <div class="card-header">
+            Kitap Teslimat Detayları
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Toplam Gün    :  @Model.PenaltyCalculate.TotalDay Gün</li>
+                <li class="list-group-item">Tatil Günleri :  @Model.PenaltyCalculate.Holiday Gün </li>
+                <li class="list-group-item">İş Günleri    :  @Model.PenaltyCalculate.WorkDay Gün</li>
+                <li class="list-group-item">Ceza Günleri  :  @Model.PenaltyCalculate.PenaltyDay Gün</li>
+                <li class="list-group-item">Ödenecek Ceza :  @Model.PenaltyCalculate.PenaltyPrice @Model.PenaltyCalculate.MoneyCode </li>
+            </ul>
+        </div>
+    </div>
+}
